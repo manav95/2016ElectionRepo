@@ -37,19 +37,19 @@ sumIowa2012 <- sum(iowaCountyResults$total_votes_2012)
 percIowaDifference <- ((sumIowa2016 - sumIowa2012)/sumIowa2012) * 100
 iowaCountyResults$marginColor <- sapply(iowaCountyResults$per_dem_2016, function(x)
          if ((x*100) < 20) {
-           "skyblue"
+           "lightcyan"
          }
          else if ((x*100) < 30 && (x*100) >= 20) {
-           "skyblue1"
+           "cadetblue1"
          }
          else if ((x*100) < 40 && (x*100) >= 30) {
-           "skyblue2"
+           "cadetblue2"
          }
          else if ((x*100) < 50 && (x*100) >= 40) {
-           "skyblue3"
+           "cadetblue3"
          }
          else {
-           "skyblue4"
+           "cadetblue4"
          }
 )
 iowaCountyResults$percentageSwing <- (iowaCountyResults$per_point_diff_2016 -  iowaCountyResults$per_point_diff_2012) * 100
@@ -105,7 +105,7 @@ iowaCountyResults$adjTurnoutColor = sapply(iowaCountyResults$adjustedTurnoutSwin
 
 leg.txt <- c("<20%", "20 - 30%", "30 - 40%", "40 - 50%", ">50%")
 map('county', 'iowa', fill = TRUE, col = iowaCountyResults$marginColor)
-legend("bottomright", leg.txt, horiz = TRUE, fill = c("skyblue", "skyblue1", "skyblue2", "skyblue3", "skyblue4"))
+legend("bottomright", leg.txt, horiz = TRUE, fill = c("lightcyan", "cadetblue1", "cadetblue2", "cadetblue3", "cadetblue4"))
 leg.txt <- c("<-30%", "-30 - -15%", "-15 - 0%", "0 - 10%", ">10%")
 map('county', 'iowa', fill = TRUE, col = iowaCountyResults$percentageColor)
 legend("bottomright", leg.txt, horiz = TRUE, fill = c("darkblue", "dodgerblue", "lightblue", "indianred1", "indianred2"))
@@ -129,19 +129,19 @@ sumWisconsin2012 <- sum(wisconsinCountyResults$total_votes_2012)
 percWisconsinDifference <- ((sumWisconsin2016 - sumWisconsin2012)/sumWisconsin2012) * 100
 wisconsinCountyResults$marginColor <- sapply(wisconsinCountyResults$per_dem_2016, function(x)
          if ((x*100) < 25) {
-           "skyblue"
+           "lightcyan"
          }
-         else if ((x*100) < 35 && (x*100) >= 25) {
-           "skyblue1"
+         else if ((x*100) < 30 && (x*100) >= 25) {
+           "cadetblue1"
          }
-         else if ((x*100) < 45 && (x*100) >= 35) {
-           "skyblue2"
+         else if ((x*100) < 40 && (x*100) >= 30) {
+           "cadetblue2"
          }
-         else if ((x*100) < 55 && (x*100) >= 45) {
-           "skyblue3"
+         else if ((x*100) < 50 && (x*100) >= 40) {
+           "cadetblue3"
          }
          else {
-           "skyblue4"
+           "cadetblue4"
          }
 )
 wisconsinCountyResults$percentageSwing <- (wisconsinCountyResults$per_point_diff_2016 -  wisconsinCountyResults$per_point_diff_2012) * 100
@@ -180,7 +180,7 @@ wisconsinCountyResults$turnoutColor = sapply(wisconsinCountyResults$turnoutSwing
             "indianred2"
       }
       )
-wisconsinCountyResults$adjustedTurnoutSwing <- wisconsinCountyResults$turnoutSwing - percIowaDifference
+wisconsinCountyResults$adjustedTurnoutSwing <- wisconsinCountyResults$turnoutSwing - percWisconsinDifference
 wisconsinCountyResults$adjTurnoutColor = sapply(wisconsinCountyResults$adjustedTurnoutSwing, function(x)
           if (x < -5) {
             "darkblue"
@@ -198,9 +198,9 @@ wisconsinCountyResults$adjTurnoutColor = sapply(wisconsinCountyResults$adjustedT
              "indianred2"
          })
 
-leg.txt <- c("<25%", "25 - 35%", "35 - 45%", "45 - 55%", ">55%")
+leg.txt <- c("<25%", "25 - 30%", "30 - 40%", "40 - 50%", ">50%")
 map('county', 'wisconsin', fill = TRUE, col = wisconsinCountyResults$marginColor)
-legend("bottomright", leg.txt, horiz = TRUE, fill = c("skyblue", "skyblue1", "skyblue2", "skyblue3", "skyblue4"))
+legend("bottomright", leg.txt, horiz = TRUE, fill = c("lightcyan", "cadetblue1", "cadetblue2", "cadetblue3", "cadetblue4"))
 leg.txt <- c("<-30%", "-30 - -15%", "-15 - 0%", "0 - 10%", ">10%")
 map('county', 'wisconsin', fill = TRUE, col = wisconsinCountyResults$percentageColor)
 legend("bottomright", leg.txt, horiz = TRUE, fill = c("darkblue", "dodgerblue", "lightblue", "indianred1", "indianred2"))
@@ -212,4 +212,192 @@ map('county', 'wisconsin', fill = TRUE, col = wisconsinCountyResults$adjTurnoutC
 legend("bottomright", leg.txt, horiz = TRUE, fill = c("darkblue", "dodgerblue", "lightcyan", "indianred1", "indianred2"))
 ```
 
+## Minnesota Results
 
+Minnesota Analysis, another surprise
+```{r}
+countyByCountyResults <- read.csv('/Users/manavdutta1/Downloads/County_Level_Election_Results_12-16-master/US_County_Level_Presidential_Results_12-16.csv')
+minnesotaCountyResults <- subset(countyByCountyResults, state_abbr == 'MN')
+sumMinnesota2016 <- sum(minnesotaCountyResults$total_votes_2016)
+sumMinnesota2012 <- sum(minnesotaCountyResults$total_votes_2012)
+percMinnesotaDifference <- ((sumMinnesota2016 - sumMinnesota2012)/sumMinnesota2012) * 100
+minnesotaCountyResults$marginColor <- sapply(minnesotaCountyResults$per_dem_2016, function(x)
+          if ((x*100) < 25) {
+           "lightcyan"
+         }
+         else if ((x*100) < 30 && (x*100) >= 25) {
+           "cadetblue1"
+         }
+         else if ((x*100) < 40 && (x*100) >= 30) {
+           "cadetblue2"
+         }
+         else if ((x*100) < 50 && (x*100) >= 40) {
+           "cadetblue3"
+         }
+         else {
+           "cadetblue4"
+         }
+)
+minnesotaCountyResults$percentageSwing <- (minnesotaCountyResults$per_point_diff_2016 -  minnesotaCountyResults$per_point_diff_2012) * 100
+minnesotaCountyResults$percentageColor <- sapply(minnesotaCountyResults$percentageSwing, function(x)
+         if (x < -30) {
+             "darkblue"
+         }
+         else if (x >= -30 && x <= -20) {
+             "dodgerblue"
+         }
+         else if (x > -20 && x <= -10) {
+             "lightblue"
+         }
+         else if (x > -10 && x <= 0) {
+             "lightcyan"
+         }
+         else {
+             "indianred1"
+         }
+)
+minnesotaCountyResults$turnoutSwing <- ((minnesotaCountyResults$total_votes_2016 - minnesotaCountyResults$total_votes_2012)/minnesotaCountyResults$total_votes_2012)*100
+minnesotaCountyResults$turnoutColor = sapply(minnesotaCountyResults$turnoutSwing, function(x)
+          if (x < -4) {
+            "darkblue"
+         }
+         else if (x >= -4 && x <= -2) {
+             "dodgerblue"
+         }
+         else if (x > -2.5 & x <= 0) {
+             "lightblue"
+      }
+         else if (x >= 0 & x < 2.5) {
+             "indianred1"
+         }
+      else {
+            "indianred2"
+      }
+      )
+minnesotaCountyResults$adjustedTurnoutSwing <- minnesotaCountyResults$turnoutSwing - percMinnesotaDifference
+minnesotaCountyResults$adjTurnoutColor = sapply(minnesotaCountyResults$adjustedTurnoutSwing, function(x)
+          if (x < -3) {
+            "darkblue"
+         }
+         else if (x >= -3 && x <= -1) {
+             "dodgerblue"
+         }
+         else if (x >= -1 && x <= 0) {
+             "lightcyan"
+         }
+         else if (x > 0 & x <= 2.5) {
+             "indianred1"
+      }
+         else {
+             "indianred2"
+         })
+
+leg.txt <- c("<25%", "25 - 30%", "30 - 40%", "40 - 50%", ">50%")
+map('county', 'minnesota', fill = TRUE, col = minnesotaCountyResults$marginColor)
+legend("bottomright", leg.txt, horiz = TRUE, fill = c("lightcyan", "cadetblue1", "cadetblue2", "cadetblue3", "cadetblue4"))
+leg.txt <- c("<-30%", "-30 - -20%", "-20 - -10%", "-10-0%", ">0%")
+map('county', 'minnesota', fill = TRUE, col = minnesotaCountyResults$percentageColor)
+legend("bottomright", leg.txt, horiz = TRUE, fill = c("darkblue", "dodgerblue", "lightblue", "lightcyan", "indianred1"))
+leg.txt <- c("<-4%", "-4 - -2%", "-2.5 - 0%", "0 - 2.5%", ">2.5%")
+map('county', 'minnesota', fill = TRUE, col = minnesotaCountyResults$turnoutColor)
+legend("bottomright", leg.txt, horiz = TRUE, fill = c("darkblue", "dodgerblue", "lightblue", "indianred1", "indianred2"))
+leg.txt <- c("<-3%", "-3 - -1%", "-1 - 0%", "0 - 2.5%", ">2.5%")
+map('county', 'minnesota', fill = TRUE, col = minnesotaCountyResults$adjTurnoutColor)
+legend("bottomright", leg.txt, horiz = TRUE, fill = c("darkblue", "dodgerblue", "lightcyan", "indianred1", "indianred2"))
+```
+
+## Arizona Results
+More results from Arizona
+
+
+Arizona Analysis, trending demographics
+```{r}
+countyByCountyResults <- read.csv('/Users/manavdutta1/Downloads/County_Level_Election_Results_12-16-master/US_County_Level_Presidential_Results_12-16.csv')
+arizonaCountyResults <- subset(countyByCountyResults, state_abbr == 'AZ')
+sumArizona2016 <- sum(arizonaCountyResults$total_votes_2016)
+sumArizona2012 <- sum(arizonaCountyResults$total_votes_2012)
+percArizonaDifference <- ((sumArizona2016 - sumArizona2012)/sumArizona2012) * 100
+arizonaCountyResults$marginColor <- sapply(arizonaCountyResults$per_dem_2016, function(x)
+         if ((x*100) < 25) {
+           "lightcyan"
+         }
+         else if ((x*100) < 30 && (x*100) >= 25) {
+           "cadetblue1"
+         }
+         else if ((x*100) < 40 && (x*100) >= 30) {
+           "cadetblue2"
+         }
+         else if ((x*100) < 50 && (x*100) >= 40) {
+           "cadetblue3"
+         }
+         else {
+           "cadetblue4"
+         }
+)
+arizonaCountyResults$percentageSwing <- (arizonaCountyResults$per_point_diff_2016 -  arizonaCountyResults$per_point_diff_2012) * 100
+arizonaCountyResults$percentageColor <- sapply(arizonaCountyResults$percentageSwing, function(x)
+         if (x < -7.5) {
+             "darkblue"
+         }
+         else if (x >= -7.5 && x <= -5) {
+             "dodgerblue"
+         }
+         else if (x > -5 && x <= 0) {
+             "lightblue"
+         }
+         else if (x > 0 && x <= 5) {
+             "indianred1"
+         }
+         else {
+             "indianred2"
+         }
+)
+arizonaCountyResults$turnoutSwing <- ((arizonaCountyResults$total_votes_2016 - arizonaCountyResults$total_votes_2012)/arizonaCountyResults$total_votes_2012)*100
+arizonaCountyResults$turnoutColor = sapply(arizonaCountyResults$turnoutSwing, function(x)
+          if (x < -5) {
+            "darkblue"
+         }
+         else if (x >= -5 && x <= -2.5) {
+             "dodgerblue"
+         }
+         else if (x > -2.5 & x <= 0) {
+             "lightblue"
+      }
+         else if (x >= 0 & x < 10) {
+             "indianred1"
+         }
+      else {
+            "indianred2"
+      }
+      )
+arizonaCountyResults$adjustedTurnoutSwing <- arizonaCountyResults$turnoutSwing - percArizonaDifference
+arizonaCountyResults$adjTurnoutColor = sapply(arizonaCountyResults$adjustedTurnoutSwing, function(x)
+          if (x < -7.5) {
+            "darkblue"
+         }
+         else if (x >= -7.5 && x <= -5) {
+             "dodgerblue"
+         }
+         else if (x >= -5 && x <= 0) {
+             "lightcyan"
+         }
+         else if (x > 0 & x <= 10) {
+             "indianred1"
+      }
+         else {
+             "indianred2"
+         })
+
+leg.txt <- c("<25%", "25 - 30%", "30 - 40%", "40 - 50%", ">50%")
+map('county', 'arizona', fill = TRUE, col = arizonaCountyResults$marginColor)
+legend("bottomright", leg.txt, horiz = TRUE, fill = c("lightcyan", "cadetblue1", "cadetblue2", "cadetblue3", "cadetblue4"))
+leg.txt <- c("<-7.5%", "-7.5 - -5%", "-5 - 0%", "0-5%", ">5%")
+map('county', 'arizona', fill = TRUE, col = arizonaCountyResults$percentageColor)
+legend("bottomright", leg.txt, horiz = TRUE, fill = c("darkblue", "dodgerblue", "lightblue", "indianred1", "indianred2"))
+leg.txt <- c("<-5%", "-5 - -2.5%", "-2.5 - 0%", "0 - 10%", ">10%")
+map('county', 'arizona', fill = TRUE, col = arizonaCountyResults$turnoutColor)
+legend("bottomright", leg.txt, horiz = TRUE, fill = c("darkblue", "dodgerblue", "lightblue", "indianred1", "indianred2"))
+leg.txt <- c("<-7.5%", "-7.5 - -5%", "-5 - 0%", "0 - 10%", ">10%")
+map('county', 'arizona', fill = TRUE, col = arizonaCountyResults$adjTurnoutColor)
+legend("bottomright", leg.txt, horiz = TRUE, fill = c("darkblue", "dodgerblue", "lightcyan", "indianred1", "indianred2"))
+```
