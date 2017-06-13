@@ -1,0 +1,127 @@
+---
+title: "Bernie vs Hillary"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r Libraries, message=FALSE, warning=FALSE, echo=FALSE}
+library(data.table)
+library(FeatureHashing)
+library(Matrix)
+library(xgboost)
+library(ggpmisc)
+require(randomForest)
+require(caret)
+library(dplyr)
+library(pROC)
+library(stringr)
+library(dummies)
+library(Metrics)
+library(kernlab)
+library(ggplot2)
+library(mlbench)
+library(maps)
+my.formula <- y ~ x
+countyByCountyResults <-read.csv(file = '/Users/manavdutta1/Rknit/US_County_Level_Presidential_Results_12-16.csv')
+countyFacts <- read.csv(file = '/Users/manavdutta1/Rknit/county_facts.csv')
+primaryResults <- read.csv(file = '/Users/manavdutta1/Rknit/primary_results.csv')
+stateDict <- read.csv(file = '/Users/manavdutta1/Rknit/county_facts_dictionary.csv')
+```
+
+
+##Bernie vs Hillary Michigan
+
+```{r}
+michiganCountyResults <- subset(countyByCountyResults, state_abbr == 'MI')
+array <- c('fips', 'area_name', 'state_abbreviation')
+stateDict <- read.csv()
+for (v in stateDict$description)
+    array <- c(array, v)
+colnames(countyFacts) <- array
+michiganFacts <- subset(countyFacts, state_abbreviation == 'MI')
+michiganPrimaryResults <- subset(primaryResults, state_abbreviation == 'MI')
+michiganBernieResults <- subset(michiganPrimaryResults, party=='Democrat' & candidate=='Bernie Sanders', select = c(fraction_votes, votes))
+michiganHillaryResults <- subset(michiganPrimaryResults, party=='Democrat' & candidate=='Hillary Clinton', select = c(fraction_votes, votes))
+michiganTrumpResults <- subset(michiganPrimaryResults, party=='Republican' & candidate=='Donald Trump', select = c(fraction_votes, votes))
+michiganDemocraticGeneral <- michiganCountyResults$per_dem_2016
+michiganBernieGen <- data.frame(michiganBernieResults$fraction_votes, michiganDemocraticGeneral)
+
+ggplot(michiganBernieGen, aes(x=michiganBernieResults.fraction_votes, y=michiganDemocraticGeneral)) + geom_point() + stat_smooth(method = "lm", col = "red", formula = my.formula) + stat_poly_eq(formula = my.formula, aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), parse = TRUE)
+
+ggplot(NULL, aes(x=michiganBernieResults$fraction_votes, y= michiganCountyResults$per_gop_2016)) + geom_point() + stat_smooth(method = "lm", col = "red", formula = my.formula) + stat_poly_eq(formula = my.formula, aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), parse = TRUE)
+       
+totalPopulistResults = michiganBernieResults$votes + michiganTrumpResults$votes
+
+ggplot(NULL, aes(x=totalPopulistResults, y= michiganCountyResults$votes_gop_2016)) + geom_point() + stat_smooth(method = "lm", col = "red", formula = my.formula) + stat_poly_eq(formula = my.formula, aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), parse = TRUE)   
+
+ggplot(NULL, aes(x=michiganFacts$`Median household income, 2009-2013`, y= michiganBernieResults$fraction_votes)) + geom_point() + stat_smooth(method = "lm", col = "red", formula = my.formula) + stat_poly_eq(formula = my.formula, aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), parse = TRUE)  
+
+ggplot(NULL, aes(x=michiganFacts$`White alone, not Hispanic or Latino, percent, 2014`, y= michiganBernieResults$fraction_votes)) + geom_point() + stat_smooth(method = "lm", col = "red", formula = my.formula) + stat_poly_eq(formula = my.formula, aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), parse = TRUE)  
+
+```
+
+##Bernie vs Hillary Minnesota
+
+```{r}
+minnesotaCountyResults <- subset(countyByCountyResults, state_abbr == 'MN')
+array <- c('fips', 'area_name', 'state_abbreviation')
+stateDict <- read.csv()
+for (v in stateDict$description)
+    array <- c(array, v)
+colnames(countyFacts) <- array
+minnesotaFacts <- subset(countyFacts, state_abbreviation == 'MN')
+minnesotaPrimaryResults <- subset(primaryResults, state_abbreviation == 'MN')
+minnesotaBernieResults <- subset(minnesotaPrimaryResults, party=='Democrat' & candidate=='Bernie Sanders', select = c(fraction_votes, votes))
+minnesotaHillaryResults <- subset(minnesotaPrimaryResults, party=='Democrat' & candidate=='Hillary Clinton', select = c(fraction_votes, votes))
+minnesotaTrumpResults <- subset(minnesotaPrimaryResults, party=='Republican' & candidate=='Donald Trump', select = c(fraction_votes, votes))
+minnesotaDemocraticGeneral <- minnesotaCountyResults$per_dem_2016
+minnesotaBernieGen <- data.frame(minnesotaBernieResults$fraction_votes, minnesotaDemocraticGeneral)
+
+ggplot(minnesotaBernieGen, aes(x=minnesotaBernieResults.fraction_votes, y=minnesotaDemocraticGeneral)) + geom_point() + stat_smooth(method = "lm", col = "red", formula = my.formula) + stat_poly_eq(formula = my.formula, aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), parse = TRUE)
+
+ggplot(NULL, aes(x=minnesotaBernieResults$fraction_votes, y= minnesotaCountyResults$per_gop_2016)) + geom_point() + stat_smooth(method = "lm", col = "red", formula = my.formula) + stat_poly_eq(formula = my.formula, aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), parse = TRUE)
+       
+totalPopulistResults = minnesotaBernieResults$votes + minnesotaTrumpResults$votes
+
+ggplot(NULL, aes(x=totalPopulistResults, y= minnesotaCountyResults$votes_gop_2016)) + geom_point() + stat_smooth(method = "lm", col = "red", formula = my.formula) + stat_poly_eq(formula = my.formula, aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), parse = TRUE)   
+
+ggplot(NULL, aes(x=minnesotaFacts$`Median household income, 2009-2013`, y= minnesotaBernieResults$fraction_votes)) + geom_point() + stat_smooth(method = "lm", col = "red", formula = my.formula) + stat_poly_eq(formula = my.formula, aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), parse = TRUE)  
+
+ggplot(NULL, aes(x=minnesotaFacts$`White alone, not Hispanic or Latino, percent, 2014`, y= minnesotaBernieResults$fraction_votes)) + geom_point() + stat_smooth(method = "lm", col = "red", formula = my.formula) + stat_poly_eq(formula = my.formula, aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), parse = TRUE)  
+
+```
+
+##Bernie vs Hillary Wisconsin
+
+```{r}
+wisconsinCountyResults <- subset(countyByCountyResults, state_abbr == 'WI')
+array <- c('fips', 'area_name', 'state_abbreviation')
+stateDict <- read.csv()
+for (v in stateDict$description)
+    array <- c(array, v)
+colnames(countyFacts) <- array
+wisconsinFacts <- subset(countyFacts, state_abbreviation == 'MI')
+wisconsinPrimaryResults <- subset(primaryResults, state_abbreviation == 'WI')
+wisconsinBernieResults <- subset(wisconsinPrimaryResults, party=='Democrat' & candidate=='Bernie Sanders', select = c(fraction_votes, votes))
+wisconsinHillaryResults <- subset(wisconsinPrimaryResults, party=='Democrat' & candidate=='Hillary Clinton', select = c(fraction_votes, votes))
+wisconsinTrumpResults <- subset(wisconsinPrimaryResults, party=='Republican' & candidate=='Donald Trump', select = c(fraction_votes, votes))
+wisconsinDemocraticGeneral <- wisconsinCountyResults$per_dem_2016
+wisconsinBernieGen <- data.frame(wisconsinBernieResults$fraction_votes, wisconsinDemocraticGeneral)
+
+ggplot(wisconsinBernieGen, aes(x=wisconsinBernieResults.fraction_votes, y=wisconsinDemocraticGeneral)) + geom_point() + stat_smooth(method = "lm", col = "red", formula = my.formula) + stat_poly_eq(formula = my.formula, aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), parse = TRUE)
+
+ggplot(NULL, aes(x=wisconsinBernieResults$fraction_votes, y= wisconsinCountyResults$per_gop_2016)) + geom_point() + stat_smooth(method = "lm", col = "red", formula = my.formula) + stat_poly_eq(formula = my.formula, aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), parse = TRUE)
+       
+totalPopulistResults = wisconsinBernieResults$votes + wisconsinTrumpResults$votes
+
+ggplot(NULL, aes(x=totalPopulistResults, y= wisconsinCountyResults$votes_gop_2016)) + geom_point() + stat_smooth(method = "lm", col = "red", formula = my.formula) + stat_poly_eq(formula = my.formula, aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), parse = TRUE)   
+
+ggplot(NULL, aes(x=wisconsinFacts$`Median household income, 2009-2013`, y= wisconsinBernieResults$fraction_votes)) + geom_point() + stat_smooth(method = "lm", col = "red", formula = my.formula) + stat_poly_eq(formula = my.formula, aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), parse = TRUE)  
+
+ggplot(NULL, aes(x=wisconsinFacts$`White alone, not Hispanic or Latino, percent, 2014`, y= wisconsinBernieResults$fraction_votes)) + geom_point() + stat_smooth(method = "lm", col = "red", formula = my.formula) + stat_poly_eq(formula = my.formula, aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), parse = TRUE)  
+
+```
